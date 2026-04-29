@@ -1,0 +1,16 @@
+name: Build-RedSun
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+      - name: Compile
+        run: cl.exe /EHsc RedSun.cpp /link cldapi.lib user32.lib gdi32.lib ntdll.lib /out:RedSun.exe
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: RedSun-EXE
+          path: RedSun.exe
